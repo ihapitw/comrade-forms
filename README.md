@@ -5,7 +5,7 @@
 ---
 
 ```HTML
-<script src="http://unpkg.com/comrade-forms@lastest/dist/comrade-forms.js">
+<script src="https://unpkg.com/comrade-forms@latest/dist/comrade-forms.js">
 
 <script>
   new ComradeForms()
