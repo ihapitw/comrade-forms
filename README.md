@@ -5,8 +5,7 @@
 ---
 
 ```HTML
-<script src="https://unpkg.com/comrade-forms@latest/dist/comrade-forms.js">
-
+<script src="https://unpkg.com/comrade-forms@latest/dist/comrade-forms.js"></script>
 <script>
   new ComradeForms()
 </script>
@@ -97,5 +96,24 @@ new ComradeForms({
     // }
   }
 })
+```
 
+### Add Custom Validator for field
+
+#### for example phone field length validator
+
+```JS
+const comradeForms = new ComradeForms()
+const phones = document.querySelectorAll('input[type="tel"]')
+phones.forEach(field => {
+  comradeForms.addValidator(field, function(element) {
+    const valid = element.value.length === 11
+    element.setCustomValidity(
+      valid ?
+      '' :
+      'Please enter correct phone number'
+    );
+    return valid
+  })
+})
 ```

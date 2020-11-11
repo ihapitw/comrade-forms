@@ -1,3 +1,4 @@
+import hyperform from 'hyperform'
 import { ComradeForm } from './modules/form'
 
 const optionsDefault = {
@@ -18,5 +19,8 @@ export class ComradeForms {
         this.forms.push(new ComradeForm(form, this))
       })
     }
+  }
+  addValidator(element, handler) {
+    hyperform.addValidator(element, handler)
   }
 }

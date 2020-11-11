@@ -1,7 +1,7 @@
 {
   "name": "comrade-forms",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.2",
+  "description": "Comrade Forms Processor",
   "main": "dist/comrade-forms.js",
   "module": "index.js",
   "scripts": {
