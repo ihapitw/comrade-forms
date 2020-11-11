@@ -10,14 +10,12 @@
     <title>Document</title>
   </head>
   <body>
-    <form action="/hello-world" method="POST" data-comrade-form>
+    <form action="/api/path" method="POST" data-comrade-form>
+      <div data-comrade-form-loader></div>
+      <div data-comrade-form-success></div>
       <div>
         <label for="name">Name</label>
         <input type="text" name="name" id="name" required />
-      </div>
-      <div>
-        <label for="tel">Phone</label>
-        <input type="tel" name="phone" id="tel" required />
       </div>
       <div>
         <label for="email">Email</label>

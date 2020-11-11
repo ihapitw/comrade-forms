@@ -1,3 +1,7 @@
 import { ComradeForms } from '../index'
 
-new ComradeForms()
+new ComradeForms({
+  hyperform: {
+    // some configuration for hyperform
+  }
+})
