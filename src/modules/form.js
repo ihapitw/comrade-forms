@@ -39,6 +39,17 @@ export class ComradeForm {
     event.preventDefault()
     this.loader.classList.add('active')
     const formData = new FormData(this.element)
+    const akismet = {}
+    Array.from(this.element.elements).forEach((element) => {
+      if (element.dataset.akismet && element.name) {
+        const type = element.dataset.akismet
+        if (!akismet[`akismet:${type}`]) {
+          akismet[`akismet:${type}`] = []
+        }
+        akismet[`akismet:${type}`].push(element.name)
+      }
+    })
+    formData.append('akismet', JSON.stringify(akismet))
     let request = new XMLHttpRequest()
     request.open(this.element.method || 'POST', this.element.action || '/')
     request.send(formData)

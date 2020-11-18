@@ -37,11 +37,15 @@ new ComradeForms()
   <div data-comrade-form-success></div>
   <div>
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" required />
+    <input type="text" name="name" id="name" data-akismet="name" required />
   </div>
   <div>
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" required/>
+    <input type="email" name="email" id="email" data-akismet="email" required/>
+  </div>
+  <div>
+    <label for="email-2">Other Email</label>
+    <input type="email" name="other-email" id="email-2" data-akismet="email" required/>
   </div>
   <div>
     <button type="submit">Submit</button>
