@@ -1,3 +1,5 @@
+import './modules/utm-observer'
+
 import hyperform from 'hyperform'
 import { ComradeForm } from './modules/form'
 
