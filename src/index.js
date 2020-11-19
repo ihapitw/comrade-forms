@@ -1,21 +1,21 @@
-import './modules/utm-observer'
-
 import hyperform from 'hyperform'
-import { ComradeForm } from './modules/form'
+import utmObserver from './modules/utm-observer'
 
-const optionsDefault = {
-  onSuccess(response) {
-    console.log(`Form submit done, response: ${response}`)
-  },
-  onError(response) {
-    console.error(`Form submit error, response: ${response}`)
-  }
-}
+import { ComradeForm } from './modules/form'
+import { optionsDefault } from './modules/const'
+
+let instance = null
 
 export class ComradeForms {
   constructor(options) {
+    if (instance) {
+      return instance
+    }
     this.forms = []
     this.options = Object.assign({}, optionsDefault, options)
+
+    utmObserver(options.utm)
+
     if (document && document instanceof HTMLDocument) {
       document.querySelectorAll('[data-comrade-form]').forEach((form) => {
         this.forms.push(new ComradeForm(form, this))
