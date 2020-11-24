@@ -1,5 +1,8 @@
 import hyperform from 'hyperform'
-const optionsHyperDefault = { revalidate: 'oninput' }
+import Snackbar from 'node-snackbar'
+import { optionsHyperDefault } from './const'
+import { formRequest } from './request'
+
 export class ComradeForm {
   constructor(element, base) {
     if (element && element instanceof HTMLFormElement) {
@@ -16,14 +19,6 @@ export class ComradeForm {
 
     this.element = element
     this.base = base
-    this.loader = this.element.querySelector('[data-comrade-form-loader]')
-    this.success = this.element.querySelector('[data-comrade-form-success]')
-    if (!this.loader) {
-      throw new Error(`[data-comrade-form-loader] element not found in <form>`)
-    }
-    if (!this.success) {
-      throw new Error(`[data-comrade-form-success] element not found in <form>`)
-    }
 
     this.element.dataset.comradeForm = 'INITED'
     this.element.addEventListener('submit', this.onSubmit.bind(this))
@@ -35,10 +30,7 @@ export class ComradeForm {
     hyperform(this.element, hyperOptions)
   }
 
-  onSubmit(event) {
-    event.preventDefault()
-    this.loader.classList.add('active')
-    const formData = new FormData(this.element)
+  get akismet() {
     const akismet = {}
     Array.from(this.element.elements).forEach((element) => {
       if (element.dataset.akismet && element.name) {
@@ -49,26 +41,49 @@ export class ComradeForm {
         akismet[`akismet:${type}`].push(element.name)
       }
     })
-    formData.append('akismet', JSON.stringify(akismet))
-    let request = new XMLHttpRequest()
-    request.open(this.element.method || 'POST', this.element.action || '/')
-    request.send(formData)
-    request.onreadystatechange = () => {
-      if (
-        (request.readyState === XMLHttpRequest.DONE, request.status === 200)
-      ) {
-        this.success.classList.add('active')
-        if (typeof this.base.options.onSuccess === 'function') {
-          this.base.options.onSuccess(request.response, this.element)
-        }
-      } else if (request.readyState === XMLHttpRequest.DONE) {
-        if (typeof this.base.options.onError === 'function') {
-          this.base.options.onError(request.response, this.element)
-        }
-      }
-      if (request.readyState === XMLHttpRequest.DONE) {
-        this.loader.classList.remove('active')
-      }
+    return JSON.stringify(akismet)
+  }
+
+  onSubmit(event) {
+    event.preventDefault()
+    if (this.element.classList.contains('cf-loading')) {
+      return false
     }
+    const formData = new FormData(this.element)
+    formData.append('akismet', this.akismet)
+
+    this.element.classList.add('cf-loading')
+    this.element.classList.remove('cf-error')
+
+    formRequest({
+      url: this.element.action,
+      method: this.element.method,
+      data: formData
+    })
+      .then((response) => {
+        this.element.reset()
+        this.element.classList.add('cf-success')
+        if (typeof this.base.options.onSuccess === 'function') {
+          this.base.options.onSuccess(response, this.element)
+        }
+      })
+      .catch((err) => {
+        this.element.classList.add('cf-error')
+        if (typeof this.base.options.onError === 'function') {
+          this.base.options.onError(err, this.element)
+        }
+        Snackbar.show({
+          text:
+            err.data.message ||
+            `ERROR ${err.status}, Ooops... something wrong, please try again later.`,
+          showAction: false,
+          pos: 'bottom-center',
+          textColor: '#ffffff',
+          backgroundColor: '#EC3F51'
+        })
+      })
+      .finally(() => {
+        this.element.classList.remove('cf-loading')
+      })
   }
 }
