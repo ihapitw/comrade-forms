@@ -5,7 +5,8 @@
 ---
 
 ```HTML
-<script src="https://unpkg.com/comrade-forms@latest/dist/comrade-forms.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/comrade-forms@1/dist/comrade-forms.css">
+<script src="https://cdn.jsdelivr.net/npm/comrade-forms@1/dist/comrade-forms.js"></script>
 <script>
   new ComradeForms()
 </script>
@@ -24,6 +25,7 @@ $ npm i comrade-forms --save
 ```
 
 ```JS
+import 'comrade-forms/dist/comrade-forms.css'
 import { ComradeForms } from 'comrade-forms'
 
 new ComradeForms()
@@ -32,20 +34,34 @@ new ComradeForms()
 ### Simple HTML:
 
 ```HTML
-<form action="/api/path" method="POST" data-comrade-form>
-  <div data-comrade-form-loader></div>
-  <div data-comrade-form-success></div>
+<form
+  action="https://example.com/api/form"
+  method="POST"
+  data-comrade-form
+>
+  <div data-comrade-form-loader>Loading</div>
+  <div data-comrade-form-success>
+    <span data-cf="success-message"></span>
+  </div>
   <div>
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" data-akismet="name" required />
+    <input
+      type="text"
+      name="name"
+      id="name"
+      data-akismet="name"
+      required
+    />
   </div>
   <div>
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" data-akismet="email" required/>
-  </div>
-  <div>
-    <label for="email-2">Other Email</label>
-    <input type="email" name="other-email" id="email-2" data-akismet="email" required/>
+    <input
+      type="email"
+      name="email"
+      id="email"
+      data-akismet="email"
+      required
+    />
   </div>
   <div>
     <button type="submit">Submit</button>
