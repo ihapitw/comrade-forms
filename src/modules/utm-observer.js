@@ -11,9 +11,9 @@
 // can be read and added to forms or stored in the backend database, etc.
 //
 
-export default function ({ prefix, params }) {
+export default function ({ params }) {
   const utmCookie = {
-    cookieNamePrefix: prefix,
+    cookieNamePrefix: '_uc_',
 
     utmParams: params,
 

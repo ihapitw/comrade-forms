@@ -1,7 +1,19 @@
 import hyperform from 'hyperform'
 import Snackbar from 'node-snackbar'
-import { optionsHyperDefault } from './const'
+import { optionsHyperDefault, cookiesForSend } from './const'
 import { formRequest } from './request'
+import { formRender } from './render'
+
+function getCookie(name) {
+  const matches = document.cookie.match(
+    new RegExp(
+      '(?:^|; )' +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+        '=([^;]*)'
+    )
+  )
+  return matches ? decodeURIComponent(matches[1]) : undefined
+}
 
 export class ComradeForm {
   constructor(element, base) {
@@ -44,6 +56,17 @@ export class ComradeForm {
     return JSON.stringify(akismet)
   }
 
+  get utmBody() {
+    const utmBody = {}
+    cookiesForSend.forEach((key) => {
+      const value = getCookie(key)
+      if (value) {
+        utmBody[key] = value
+      }
+    })
+    return JSON.stringify(utmBody)
+  }
+
   onSubmit(event) {
     event.preventDefault()
     if (this.element.classList.contains('cf-loading')) {
@@ -51,6 +74,7 @@ export class ComradeForm {
     }
     const formData = new FormData(this.element)
     formData.append('akismet', this.akismet)
+    formData.append('utm', this.utmBody)
 
     this.element.classList.add('cf-loading')
     this.element.classList.remove('cf-error')
@@ -66,6 +90,7 @@ export class ComradeForm {
         if (typeof this.base.options.onSuccess === 'function') {
           this.base.options.onSuccess(response, this.element)
         }
+        formRender(this.element, 'success-message', response.data)
       })
       .catch((err) => {
         this.element.classList.add('cf-error')
