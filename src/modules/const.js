@@ -3,8 +3,6 @@ export const optionsDefault = {
   onError() {},
   utm: {
     params: [
-      'ga_conversion_page',
-      'ga_landing_page',
       'utm_source',
       'utm_medium',
       'utm_campaign',
@@ -15,6 +13,8 @@ export const optionsDefault = {
 }
 export const cookiesForSend = [
   '_ga',
+  '__utmz',
+  '_uc_referrer',
   '_uc_ga_conversion_page',
   '_uc_ga_landing_page',
   '_uc_utm_source',

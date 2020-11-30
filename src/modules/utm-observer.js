@@ -71,8 +71,8 @@ export default function ({ params }) {
 
     writeUtmCookieFromParams: function () {
       for (var i = 0; i < this.utmParams.length; i++) {
-        var param = this.utmParams[i]
-        var value = this.getParameterByName(param)
+        const param = this.utmParams[i]
+        const value = this.getParameterByName(param)
         this.createCookie(param, value, this.cookieExpiryDays)
       }
     },
@@ -82,6 +82,10 @@ export default function ({ params }) {
       if (!existingValue) {
         this.createCookie(name, value, this.cookieExpiryDays)
       }
+    },
+
+    writeGA: function () {
+      this.writeCookieOnce('ga_landing_page', window.location.href)
     },
 
     writeReferrerOnce: function () {
@@ -98,6 +102,7 @@ export default function ({ params }) {
     }
   }
 
+  utmCookie.writeGA()
   utmCookie.writeReferrerOnce()
 
   if (utmCookie.utmPresentInUrl()) {
