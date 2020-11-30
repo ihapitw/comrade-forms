@@ -42,7 +42,7 @@ export class ComradeForm {
     hyperform(this.element, hyperOptions)
   }
 
-  get akismet() {
+  akismet() {
     const akismet = {}
     Array.from(this.element.elements).forEach((element) => {
       if (element.dataset.akismet && element.name) {
@@ -53,10 +53,10 @@ export class ComradeForm {
         akismet[`akismet:${type}`].push(element.name)
       }
     })
-    return JSON.stringify(akismet)
+    return encodeURIComponent(JSON.stringify(akismet))
   }
 
-  get utmBody() {
+  utmBody() {
     const utmBody = {}
     cookiesForSend.forEach((key) => {
       const value = getCookie(key)
@@ -64,7 +64,7 @@ export class ComradeForm {
         utmBody[key] = value
       }
     })
-    return JSON.stringify(utmBody)
+    return encodeURIComponent(JSON.stringify(utmBody))
   }
 
   onSubmit(event) {
@@ -73,9 +73,8 @@ export class ComradeForm {
       return false
     }
     const formData = new FormData(this.element)
-    formData.append('akismet', this.akismet)
-    formData.append('utm', this.utmBody)
-
+    formData.append('akismet', this.akismet())
+    formData.append('utm', this.utmBody())
     this.element.classList.add('cf-loading')
     this.element.classList.remove('cf-error')
 
