@@ -87,6 +87,9 @@ export default function ({ params }) {
     writeGA: function () {
       this.writeCookieOnce('ga_landing_page', window.location.href)
     },
+    writeCurrentUrl: function () {
+      this.createCookie('current_page_url', window.location.href)
+    },
 
     writeReferrerOnce: function () {
       let value = document.referrer
@@ -104,6 +107,7 @@ export default function ({ params }) {
 
   utmCookie.writeGA()
   utmCookie.writeReferrerOnce()
+  utmCookie.writeCurrentUrl()
 
   if (utmCookie.utmPresentInUrl()) {
     utmCookie.writeUtmCookieFromParams()

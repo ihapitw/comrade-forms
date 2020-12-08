@@ -21,6 +21,7 @@ export const cookiesForSend = [
   '_uc_utm_medium',
   '_uc_utm_campaign',
   '_uc_utm_term',
-  '_uc_utm_content'
+  '_uc_utm_content',
+  '_uc_current_page_url'
 ]
 export const optionsHyperDefault = { revalidate: 'oninput' }

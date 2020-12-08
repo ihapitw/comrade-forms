@@ -1,6 +1,6 @@
 {
   "name": "comrade-forms",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Comrade Forms Processor",
   "main": "dist/comrade-forms.js",
   "module": "index.js",
@@ -16,7 +16,7 @@
     "dist/comrade-forms.css"
   ],
   "keywords": [],
-  "author": "ihapitw",
+  "author": "Vadim Denisenko, http://github.com/ihapitw",
   "repository": "github:ihapitw/comrade-forms",
   "license": "ISC",
   "devDependencies": {

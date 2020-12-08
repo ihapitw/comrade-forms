@@ -31,6 +31,8 @@ export class ComradeForms {
         this.forms.push(new ComradeForm(form, this))
       })
     }
+
+    console.log(`Comrade Forms ${APP_VERSION}`)
   }
   addValidator(element, handler) {
     hyperform.addValidator(element, handler)
