@@ -89,7 +89,10 @@ export class ComradeForm {
         if (typeof this.base.options.onSuccess === 'function') {
           this.base.options.onSuccess(response, this.element)
         }
-        formRender(this.element, 'success-message', response.data)
+        formRender(this.element, 'success-message', response.data.message)
+        if (response.data.redirect_url) {
+          window.location.href = response.data.redirect_url
+        }
       })
       .catch((err) => {
         this.element.classList.add('cf-error')
