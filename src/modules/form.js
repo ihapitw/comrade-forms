@@ -84,7 +84,6 @@ export class ComradeForm {
       data: formData
     })
       .then((response) => {
-        this.element.reset()
         this.element.classList.add('cf-success')
         if (typeof this.base.options.onSuccess === 'function') {
           this.base.options.onSuccess(response, this.element)
@@ -93,21 +92,26 @@ export class ComradeForm {
         if (response.data.redirect_url) {
           window.location.href = response.data.redirect_url
         }
+        this.element.reset()
       })
       .catch((err) => {
-        this.element.classList.add('cf-error')
-        if (typeof this.base.options.onError === 'function') {
-          this.base.options.onError(err, this.element)
+        if (err.data) {
+          this.element.classList.add('cf-error')
+          if (typeof this.base.options.onError === 'function') {
+            this.base.options.onError(err, this.element)
+          }
+          Snackbar.show({
+            text:
+              err.data.message ||
+              `ERROR ${err.status}, Ooops... something wrong, please try again later.`,
+            showAction: false,
+            pos: 'bottom-center',
+            textColor: '#ffffff',
+            backgroundColor: '#EC3F51'
+          })
+        } else {
+          console.error(err)
         }
-        Snackbar.show({
-          text:
-            err.data.message ||
-            `ERROR ${err.status}, Ooops... something wrong, please try again later.`,
-          showAction: false,
-          pos: 'bottom-center',
-          textColor: '#ffffff',
-          backgroundColor: '#EC3F51'
-        })
       })
       .finally(() => {
         this.element.classList.remove('cf-loading')
